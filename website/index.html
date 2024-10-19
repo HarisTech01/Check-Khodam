@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cek Khodam</title>
+    <!-- Tambahkan link CSS SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Tambahkan link untuk font Comic Neue -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Comic Neue', cursive;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(45deg, #ff00cc, #3333ff);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:before {
+            content: "🔮";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+
+        button:after {
+            content: "✨";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #3333ff, #ff00cc);
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: scale(0.95) rotate(2deg);
+        }
+
+        @keyframes glowing {
+            0% { box-shadow: 0 0 5px #ff00cc; }
+            50% { box-shadow: 0 0 20px #3333ff; }
+            100% { box-shadow: 0 0 5px #ff00cc; }
+        }
+
+        button:hover {
+            animation: glowing 1.5s infinite;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        #result:empty {
+            display: none;
+        }
+        #result:not(:empty) {
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        .swal2-popup {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            border-radius: 20px;
+        }
+
+        .swal2-title {
+            color: #6a11cb;
+        }
+
+        .swal2-confirm {
+            background-color: #6a11cb !important;
+            border-radius: 50px !important;
+            padding: 10px 30px !important;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .mystical-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .result-text {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Tambahkan gaya baru untuk latar belakang bergerak */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('Ki-Arjuna.png');
+            background-size: cover;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .credit {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .social-media {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .instagram-logo {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .instagram-logo:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Tambahkan div untuk latar belakang bergerak -->
+    <div class="background-image"></div>
+
+    <div class="container">
+        <h1>Cek Khodam Ki Arjuna Tonggos</h1>
+        <p>Masukkan nama Anda untuk memeriksa apakah Anda memiliki khodam:</p>
+        <input type="text" id="nama" placeholder="Masukkan nama Anda">
+        <button onclick="cekKhodam()">Cek Khodam MU!</button>
+    </div>
+
+    <!-- Tambahkan div baru untuk kredit -->
+    <div class="credit">
+        Website Di Buat Oleh Haris Musafa
+    </div>
+
+    <!-- Tambahkan link Instagram dengan logo -->
+    <div class="social-media">
+        <a href="https://www.instagram.com/haris_musafa_/" target="_blank" rel="noopener noreferrer">
+            <img src="https://cdn2.iconfinder.com/data/icons/social-media-2285/512/1_Instagram_colored_svg_1-512.png" alt="Instagram" class="instagram-logo">
+        </a>
+    </div>
+
+    <!-- Tambahkan script SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+        function cekKhodam() {
+            const nama = document.getElementById('nama').value;
+            const namaKhodam = [
+                "Si Juki Jenaka", "Mbah Googling", "Kang Bakso Terbang",
+                "Mbok Jamu Digital", "Pak Gamer Gaib", "Nyi Roro Coding",
+                "Ki Jaran Goyang Mouse", "Eyang Keyboard Sakti", "Dukun Wifi",
+                "Mbah Selfie Sakti", "Kang Ojek Online Gaib", "Nyi Poci Viral",
+                "Ki Tukang Ketik Kilat", "Eyang Podcast Mistis", "Dukun Hashtag",
+                "Mbok Warung Internet Astral", "Pak Influencer Alam Ghaib",
+                "Si Kucing Keyboard", "Mbah Unboxing Jimat",
+                "Kang Gorengan Astral", "Nyi Rendang Virtual", "Mbah TikTok Sakti",
+                "Ki Pecel Lele Ghaib", "Eyang Martabak Dimensi Lain", "Dukun Emote",
+                "Mbok Gado-gado Digital", "Pak Tukang Parkir Teleportasi",
+                "Si Batagor Berhantu", "Mbah Streaming Santet", "Kang Cukur Telepati",
+                "Nyi Penjahit Aura", "Ki Tukang Sate Telekinesis", "Eyang Bakwan Jagad",
+                "Dukun Meme", "Mbok Bubur Ayam Dimensi Kelima", "Pak Satpam Portal",
+                "Si Kucing Coding", "Mbah Uninstall Setan", "Kang Angkringan UFO",
+                "Nyi Penjual Pulsa Astral", "Ki Tukang Urut Aura", "Eyang Warteg Hologram",
+                "Dukun Antivirus", "Mbok Pecel Pitik Hantu", "Pak Tukang Sapu Dimensi",
+                "Si Ayam Geprek Gaib", "Mbah Gojek Antar Realm",
+                "Mbah Indomie Sakti", "Kang Cilok Teleportasi", "Nyi Penjual Jamu Dimensi",
+                "Ki Tukang Parkir Astral", "Eyang Bakso Berhantu", "Dukun Selfie",
+                "Mbok Warung Kopi Ghaib", "Pak Tukang Cukur Aura", "Si Kucing Hacker",
+                "Mbah Unboxing Santet", "Kang Gorengan UFO", "Nyi Rendang Hologram",
+                "Ki Pecel Lele Telekinesis", "Eyang Martabak Portal", "Dukun Emoji",
+                "Mbok Gado-gado Astral", "Pak Tukang Parkir Hantu", "Si Batagor Dimensi",
+                "Mbah Streaming Jimat", "Kang Cukur Gaib", "Nyi Penjahit Telepati",
+                "Ki Tukang Sate Viral", "Eyang Bakwan Teleportasi", "Dukun GIF",
+                "Mbok Bubur Ayam Berhantu", "Pak Satpam Dimensi", "Si Kucing Influencer",
+                "Mbah Uninstall Guna-guna", "Kang Angkringan Hologram", "Nyi Penjual Pulsa Gaib",
+                "Ki Tukang Urut Viral", "Eyang Warteg UFO", "Dukun Firewall",
+                "Mbok Pecel Pitik Astral", "Pak Tukang Sapu Telekinesis", "Si Ayam Geprek Portal",
+                "Mbah Tahu Bulat Dimensi", "Kang Siomay Astral", "Nyi Penjual Kue Putu Hantu",
+                "Ki Tukang Cukur Rambut Gaib", "Eyang Soto Ayam Teleportasi", "Dukun Stiker WhatsApp",
+                "Mbok Rujak Cingur Digital", "Pak Tukang Tambal Ban UFO", "Si Kucing YouTuber",
+                "Mbah Unboxing Keris", "Kang Es Cendol Berhantu", "Nyi Penjual Bakpao Dimensi",
+                "Ki Tukang Pijat Kaki Viral", "Eyang Nasi Uduk Portal", "Dukun Keyboard QWERTY",
+                "Mbok Ketoprak Astral", "Pak Tukang Las Telepati", "Si Ayam Penyet Hologram",
+                "Mbah Gojek Antar Surga", "Kang Bakmi Ghaib", "Nyi Penjual Kopi Sachet Dimensi",
+                "Ki Tukang Servis HP Berhantu", "Eyang Sate Padang Telekinesis", "Dukun Emoji Bergerak",
+                "Mbok Nasi Goreng Astral", "Pak Tukang Becak Hantu", "Si Kucing Selebgram",
+                "Mbah Unboxing Batu Akik", "Kang Bubur Kacang Ijo UFO", "Nyi Penjual Tempe Dimensi",
+                "Ki Tukang Gigi Viral", "Eyang Mie Ayam Portal", "Dukun Stiker Telegram",
+                "Mbok Lontong Sayur Digital", "Pak Tukang Sol Sepatu Gaib", "Si Bebek Goreng Hologram"
+            ];
+            const acakKhodam = namaKhodam[Math.floor(Math.random() * namaKhodam.length)];
+            const hasil = Math.random() < 0.5 ? `memiliki khodam bernama "${acakKhodam}"` : 'tidak memiliki khodam';
+            
+            const icon = hasil.includes('memiliki') ? '🧞‍♂️' : '🔮';
+            const sound = hasil.includes('memiliki') ? new Audio('https://www.soundjay.com/misc/magic-chime-01.mp3') : new Audio('https://www.soundjay.com/misc/fail-buzzer-01.mp3');
+            
+            sound.play();
+            
+            Swal.fire({
+                title: 'Hasil Pemeriksaan Gaib',
+                html: `
+                    <div class="mystical-icon">${icon}</div>
+                    <div class="result-text">${nama} ${hasil}.</div>
+                `,
+                showConfirmButton: true,
+                confirmButtonText: 'Wah, Seru!',
+                background: 'transparent',
+                showClass: {
+                    popup: 'animate__animated animate__zoomIn'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__zoomOut'
+                },
+                customClass: {
+                    confirmButton: 'swal2-confirm'
+                },
+                allowOutsideClick: true,
+                allowEscapeKey: true,
+                allowEnterKey: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.close();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
